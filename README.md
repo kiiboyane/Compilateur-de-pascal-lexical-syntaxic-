@@ -11,10 +11,7 @@ make a pascal compiler using flex and bison
 download flex and bison to set the environment 
 
 ### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+ to elaborate later 
 
 ### Who do I talk to? ###
 
