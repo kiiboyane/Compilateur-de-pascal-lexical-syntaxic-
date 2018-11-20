@@ -4,16 +4,16 @@
 %{
 #include "heading.h"
 
-int yyerror(char *s);
+int yyerror(const char *s);
 int yylex(void);
 
 %}
-
+/*
 %union{
   int		int_val;
   string*	op_val;
 }
-
+*/
 %start	program 
 /*
 %token	<int_val>	INTEGER_LITERAL
@@ -21,9 +21,8 @@ int yylex(void);
 %left	PLUS
 %left	MULT 
 */
-%type	<int_val>	exp 
 
-%token	<int_val> NUM_TOKEN
+%token  NUM_TOKEN
 %token	IF_TOKEN
 %token	THEN_TOKEN
 %token	BEGIN_TOKEN
@@ -51,7 +50,7 @@ int yylex(void);
 %token	PO_TOKEN
 %token	PF_TOKEN
 %token	DIFF_TOKEN
-%token VI_TOKEN
+%token  VI_TOKEN
 %token	ERREUR_TOKEN
 
 %%
@@ -64,24 +63,43 @@ input:		/* empty */
 
 program:        PROGRAM_TOKEN ID_TOKEN PV_TOKEN block PT_TOKEN;
 
-block:  	declaration BEGIN_TOKEN  END_TOKEN;
-
-vid: 		ID_TOKEN ;
+block:  	declaration statement;
 
 declaration:    VAR_TOKEN  vid PV_TOKEN;
 
+vid: 		ID_TOKEN | ID_TOKEN VI_TOKEN vid ;
+
+statement: 	BEGIN_TOKEN small_stat END_TOKEN;
+
+small_stat:     %empty |w_r_stat small_stat | if_stat small_stat | while_stat small_stat |affectation_stat small_stat ;
+
+affectation_stat: ID_TOKEN AFF_TOKEN operationform PV_TOKEN ;
+
+operationform:  num |  num operation operationform ; 
+
+num:		ID_TOKEN | NUM_TOKEN | PO_TOKEN operationform PF_TOKEN ;
+
+operation:	PLUS_TOKEN | MINUS_TOKEN | DIV_TOKEN | MULT_TOKEN ;
+
+w_r_stat:	write_stat | read_stat ;
+
+write_stat:     WRITE_TOKEN PO_TOKEN ID_TOKEN PF_TOKEN PV_TOKEN ; 
+
+read_stat:      READ_TOKEN PO_TOKEN ID_TOKEN PF_TOKEN  PV_TOKEN; 
+
+if_stat:	IF_TOKEN condition THEN_TOKEN statement ; 
+
+while_stat:	WHILE_TOKEN condition DO_TOKEN statement ; 
+
+condition:      num comparaison_op num ;
+
+comparaison_op: DIFF_TOKEN | EG_TOKEN |SUP_TOKEN | INF_TOKEN | INFEG_TOKEN | SUPEG_TOKEN ;
 
 
 
 
-/*		
-exp:		NUM_TOKEN	{ $$ = $1; }
-		| exp PLUS_TOKEN exp	{ $$ = $1 + $3; }
-		| exp MULT_TOKEN exp	{ $$ = $1 * $3; }
-		;
-*/
 %%
-
+/*
 int yyerror(string s)
 {
   extern int yylineno;	// defined and maintained in lex.c
@@ -95,6 +113,11 @@ int yyerror(char *s)
 {
   return yyerror(string(s));
 }
+*/
+int yyerror(const char *msg) {
+    fprintf(stderr,"Error:%s\n",msg); return 0;
+}
+
 
 
 

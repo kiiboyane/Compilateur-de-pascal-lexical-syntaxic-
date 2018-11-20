@@ -2,10 +2,10 @@
 
 OBJS	= bison.o lex.o main.o
 
-CC	= g++
-CFLAGS	= -g -Wall -ansi -pedantic
+CC	= gcc
+CFLAGS	= 
 
-calc:		$(OBJS)
+outp:		$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o outp -lfl
 
 lex.o:		lex.c
@@ -23,8 +23,8 @@ bison.c:	syntaxic.y
 		cp syntaxic.tab.c bison.c
 		cmp -s syntaxic.tab.h tok.h || cp syntaxic.tab.h tok.h
 
-main.o:		main.cc
-		$(CC) $(CFLAGS) -c main.cc -o main.o
+main.o:		main.c
+		$(CC) $(CFLAGS) -c main.c -o main.o
 
 lex.o yac.o main.o	: heading.h
 lex.o main.o		: tok.h
