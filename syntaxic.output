@@ -1,0 +1,205 @@
+Nonterminals useless in grammar
+
+   exp
+
+
+Terminals unused in grammar
+
+   NUM_TOKEN
+   IF_TOKEN
+   THEN_TOKEN
+   CONST_TOKEN
+   WHILE_TOKEN
+   READ_TOKEN
+   WRITE_TOKEN
+   DO_TOKEN
+   PLUS_TOKEN
+   MINUS_TOKEN
+   MULT_TOKEN
+   DIV_TOKEN
+   INF_TOKEN
+   SUP_TOKEN
+   EG_TOKEN
+   AFF_TOKEN
+   INFEG_TOKEN
+   SUPEG_TOKEN
+   PO_TOKEN
+   PF_TOKEN
+   DIFF_TOKEN
+   VI_TOKEN
+   ERREUR_TOKEN
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: PROGRAM_TOKEN ID_TOKEN PV_TOKEN block PT_TOKEN
+
+    2 block: declaration BEGIN_TOKEN END_TOKEN
+
+    3 vid: ID_TOKEN
+
+    4 declaration: VAR_TOKEN vid PV_TOKEN
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+NUM_TOKEN (258)
+IF_TOKEN (259)
+THEN_TOKEN (260)
+BEGIN_TOKEN (261) 2
+END_TOKEN (262) 2
+PROGRAM_TOKEN (263) 1
+CONST_TOKEN (264)
+VAR_TOKEN (265) 4
+WHILE_TOKEN (266)
+READ_TOKEN (267)
+WRITE_TOKEN (268)
+DO_TOKEN (269)
+ID_TOKEN (270) 1 3
+PLUS_TOKEN (271)
+MINUS_TOKEN (272)
+MULT_TOKEN (273)
+DIV_TOKEN (274)
+INF_TOKEN (275)
+SUP_TOKEN (276)
+EG_TOKEN (277)
+AFF_TOKEN (278)
+INFEG_TOKEN (279)
+SUPEG_TOKEN (280)
+PV_TOKEN (281) 1 4
+PT_TOKEN (282) 1
+PO_TOKEN (283)
+PF_TOKEN (284)
+DIFF_TOKEN (285)
+VI_TOKEN (286)
+ERREUR_TOKEN (287)
+
+
+Nonterminals, with rules where they appear
+
+$accept (33)
+    on left: 0
+program (34)
+    on left: 1, on right: 0
+block (35)
+    on left: 2, on right: 1
+vid (36)
+    on left: 3, on right: 4
+declaration (37)
+    on left: 4, on right: 2
+
+
+State 0
+
+    0 $accept: . program $end
+
+    PROGRAM_TOKEN  shift, and go to state 1
+
+    program  go to state 2
+
+
+State 1
+
+    1 program: PROGRAM_TOKEN . ID_TOKEN PV_TOKEN block PT_TOKEN
+
+    ID_TOKEN  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 program: PROGRAM_TOKEN ID_TOKEN . PV_TOKEN block PT_TOKEN
+
+    PV_TOKEN  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 5
+
+    1 program: PROGRAM_TOKEN ID_TOKEN PV_TOKEN . block PT_TOKEN
+
+    VAR_TOKEN  shift, and go to state 6
+
+    block        go to state 7
+    declaration  go to state 8
+
+
+State 6
+
+    4 declaration: VAR_TOKEN . vid PV_TOKEN
+
+    ID_TOKEN  shift, and go to state 9
+
+    vid  go to state 10
+
+
+State 7
+
+    1 program: PROGRAM_TOKEN ID_TOKEN PV_TOKEN block . PT_TOKEN
+
+    PT_TOKEN  shift, and go to state 11
+
+
+State 8
+
+    2 block: declaration . BEGIN_TOKEN END_TOKEN
+
+    BEGIN_TOKEN  shift, and go to state 12
+
+
+State 9
+
+    3 vid: ID_TOKEN .
+
+    $default  reduce using rule 3 (vid)
+
+
+State 10
+
+    4 declaration: VAR_TOKEN vid . PV_TOKEN
+
+    PV_TOKEN  shift, and go to state 13
+
+
+State 11
+
+    1 program: PROGRAM_TOKEN ID_TOKEN PV_TOKEN block PT_TOKEN .
+
+    $default  reduce using rule 1 (program)
+
+
+State 12
+
+    2 block: declaration BEGIN_TOKEN . END_TOKEN
+
+    END_TOKEN  shift, and go to state 14
+
+
+State 13
+
+    4 declaration: VAR_TOKEN vid PV_TOKEN .
+
+    $default  reduce using rule 4 (declaration)
+
+
+State 14
+
+    2 block: declaration BEGIN_TOKEN END_TOKEN .
+
+    $default  reduce using rule 2 (block)

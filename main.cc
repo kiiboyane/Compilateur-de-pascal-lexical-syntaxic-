@@ -1,0 +1,26 @@
+/* main.cc */
+
+#include "heading.h"
+extern int yytelx(); 
+extern FILE * yyin; 
+
+// prototype of bison-generated parser function
+int yyparse();
+
+int main(int argc, char **argv)
+{
+  /*if ((argc > 1) && (freopen(argv[1], "r", stdin) == NULL))
+  {
+    cerr << argv[0] << ": File " << argv[1] << " cannot be opened.\n";
+    exit( 1 );
+  }
+  */
+  yyin =fopen("pascal.p" , "r") ; 
+  /*yypush_buffer_state(yy_create_buffer(yyin,YY_BUF_SIZE));
+	/* yylex();*/
+  yyparse();
+
+  return 0;
+}
+
+
